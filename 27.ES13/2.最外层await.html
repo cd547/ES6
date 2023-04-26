@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="module">
+        function ajax(){
+            return new Promise(resolve=>{
+                setTimeout(()=>{
+                    resolve(111)
+                },2000)
+            })
+        }
+    //以前不能在最外层函数上用await   let res=await ajax(),必须在模块化中  <script type="module">
+    let res=await ajax()
+    console.log('res',res);
+    
+    </script>
+</body>
+</html>

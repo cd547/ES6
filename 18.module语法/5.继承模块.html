@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<div class="box1">
+    <h1></h1>
+    <ul></ul>
+</div>
+
+<div class="box2">
+    <h1></h1>
+    <img src="" style="width:50%" alt="">
+    <ul></ul>
+</div>
+
+<body>
+    <script type="module">
+        import {Box} from "./5.js"
+        import Box1 from "./5_5.js"
+        var data = {
+            title: 'sss',
+            list: ['1', '2', '3']
+        }
+        var data2 = {
+            title: 'sss',
+            list: ['1', '2', '3'],
+            url: 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA11MPlT.img'
+        }
+        new Box('.box1',data)
+        new Box1('.box2',data2)
+    </script>
+</body>
+
+</html>

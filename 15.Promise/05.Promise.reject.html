@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //转换成promise对象
+        var p = Promise.reject('aa')
+        console.log(p);
+        p.catch(err => console.log(err)
+        )
+
+
+        //缓存
+        function ajax(url) {
+            let cache = ajax.cache || (ajax.cache = { data: null })
+            if (cache.data) {
+                console.log('cache');
+                return Promise.resolve(cache.data)//把缓存转换成Promise
+            }
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', url, true);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        //接收完毕
+                        if (xhr.status >= 200 && xhr.status <= 300) {
+                            //ok
+                            console.log('no cache');
+                            resolve(JSON.parse(xhr.responseText));
+                            //缓存
+                            ajax.cache.data = JSON.parse(xhr.responseText)
+                        } else {
+                            //error
+                            reject(xhr.responseText)
+                        }
+                    }
+
+                }
+            })
+        }
+
+        ajax('server/data.json').then(res => {
+            console.log('成功', res);//
+            //让跳转到出错
+            return Promise.reject(res)
+        }).catch(err => {
+            console.log('出错', err);
+        })
+        //成功 {name: 'aaa', age: 112} 05.Promise.reject.html:51
+        //出错 {name: 'aaa', age: 112} 05.Promise.reject.html:55 
+        //或者
+        ajax('server/data.json').then(res => {
+            console.log('成功1', res);//
+            //让跳转到出错
+            throw new Error(res)
+        }).catch(err => {
+            console.log('出错1', err);
+        })
+        //成功 {name: 'aaa', age: 112} 05.Promise.reject.html:61
+        //出错1 Error: [object Object] 05.Promise.reject.html:65  at 05.Promise.reject.html:63:18
+
+        //?promise从pendding->fulfilled->rejected????
+    </script>
+</body>
+
+</html>

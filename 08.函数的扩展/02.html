@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        //赋值
+        let f1 = function () {
+
+        }
+        //声明式
+        function f2() {
+
+        }
+        //箭头函数
+        //最简,只有return一句语句，可以省略{return}。只有一个参数可以省略（）
+        let f3 = () =>'11'
+        console.log(f3());//11
+        let arr=['a','b','c']
+        let newarr=arr.map(item=>`<li>${item}</li>`)
+        console.log('newarr',newarr);//['<li>a</li>', '<li>b</li>', '<li>c</li>']
+        //*如果返回对象
+        let f4 = () =>{return {a:'a',b:'b'}}
+        console.log(' f4()', f4());//{a: 'a', b: 'b'}
+        let f5 = () =>( {a:'a',b:'b'})//加圆括号
+        console.log(' f5()', f5());//{a: 'a', b: 'b'}
+
+        //arguments 、new不使用
+        let f6 = () =>{
+            console.log('arguments',arguments)
+        }
+        console.log('f6',f6());//Uncaught ReferenceError: arguments is not defined
+
+        new f4()// Uncaught TypeError: f4 is not a constructor
+        
+    </script>
+</body>
+
+</html>

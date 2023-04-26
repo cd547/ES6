@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.数组flat flatMap
+        let arr = [1, 2, 3, 4, [5, 6, 7, 8], 9]
+        let arrflat = arr.flat()
+        console.log('arr', arr, 'arrflat', arrflat);//arr (6) [1, 2, 3, 4, Array(4), 9] arrflat (9) [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        //复杂对象数组
+        let arr1 = [
+            { 'name': 'a', list: ['a1', 'a2', 'a3'] },
+            { 'name': 'b', list: ['b1', 'b2', 'b3', 'b4'] },
+        ]
+        let arr2 = arr1.flatMap((item) => {
+            return item.list
+        })
+        console.log(arr2);// ['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'b4']
+
+        //2.Symbol对象 description属性
+        let s1 = Symbol('name')
+        console.log('s1', s1);
+        console.log('s1.description', s1.description);
+
+        //3.try catch(e){},catch(e)可选
+        try {}
+        catch {}
+        let pro1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('ok')
+            }, 2000)
+        })
+        let pro2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject('err')
+            }, 1000)
+        })
+
+        async function t() {
+            try {
+                await Promise.race([pro1, pro2])
+            }
+            catch{
+                console.log('超时');
+            }
+        }
+        t()
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //...展开
+        //数组复制,潜复制
+        let arr = [1, 2, 3]
+        let arr2 = arr.concat()
+        //ES6方案
+        let arr3 = [...arr]
+        console.log(arr, arr2, arr3)
+        arr2.pop()
+        arr3.pop()
+        console.log(arr, arr2, arr3)
+        //合并
+        let arr4 = [4, 5, 6]
+        console.log([...arr4, 7, 8, 9]);//[4, 5, 6, 7, 8, 9]
+        let myarr = [1, 2, 3, 4, 5, 6, 7, 8]
+        let [a, b, c] = myarr
+        console.log(a, b, c);//1,2,3
+        //必须放最后
+        let [a1, b1, ...c1] = myarr
+        console.log(a1, b1, c1);//1 2 (6) [3, 4, 5, 6, 7, 8]
+        // let [a2,b2,...c2,d2]=myarr //A rest element must be last in a destructuring pattern.
+
+        //Array.from,转换真数组
+        function t() {
+            console.log(arguments);//arguments可以获取函数的所有参数。并形成一个类似数组，但不是数组（没有map,filter等数组方法）
+            console.log(arguments[0]);
+            let newarr = Array.from(arguments).map((v, i) => {//转成真数组，然后才能调用map函数
+                return v * 2
+            })
+            console.log('newarr', newarr);
+        }
+        t(1, 2, 3, 4)//Arguments(4) [1, 2, 3, 4, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+                //1
+                //newarr (4) [2, 4, 6, 8]
+
+        //新建数组 Array.of
+        let arr5=[1,3,4]
+        let arr6=Array.of(1,3,4)
+        console.log('arr5',arr5,'arr6',arr6);//arr5 (3) [1, 3, 4] arr6 (3) [1, 3, 4]
+        //Array.of意义是弥补Array(x)单个变量时，会初始化x个空的数组，而不是初始化一个包含x的新数组的功能
+        let arr7=Array(7)
+        let arr7_1=Array('7')
+        let arr8=Array.of(7)
+        console.log(arr7,arr7_1,arr8)//(7) [空 ×7]length: 7[[Prototype]]: Array(0) ['7'] [7]
+
+        //数组的实例方法
+
+        let _arr=[1,3,4,5,6,7,8,9,10]
+        //find：满足条件的第一个元素
+        let res=_arr.find((item)=>{
+            return item>5
+        })
+        console.log('res',res);//res 6
+        //获取索引值
+        let res1=_arr.findIndex((item,index)=>{
+            return item>5
+        })
+        console.log('res1',res1);//res1 4
+        //findLast 从右向左
+        let res2=_arr.findLast((item)=>{
+            return item>5
+        })
+        console.log('res2',res2);//res2 10
+        //获取索引值
+        let res3=_arr.findLastIndex((item,index)=>{
+            return item>5
+        })
+        console.log('res3',res3);//res3 8
+
+        //fill填充,替换
+       let arr9= Array(10).fill('sss')
+        console.log(arr9);//(10) ['sss', 'sss', 'sss', 'sss', 'sss', 'sss', 'sss', 'sss', 'sss', 'sss']
+        arr9.fill('bbb')//替换
+        console.log(arr9)// (10) ['bbb', 'bbb', 'bbb', 'bbb', 'bbb', 'bbb', 'bbb', 'bbb', 'bbb', 'bbb']
+        arr9.fill('ccc',1,3)//初始位置，到结束位置（不包含结束位置）
+        console.log(arr9)//(10) ['bbb', 'ccc', 'ccc', 'bbb', 'bbb', 'bbb', 'bbb', 'bbb', 'bbb', 'bbb']
+        
+        //flat扁平化
+        let arr10=[1,2,3,4,[5,6,7,8],9]  
+        let arrflat=arr10.flat()
+        console.log('arr10',arr10,'arrflat',arrflat);//arr10 (6) [1, 2, 3, 4, Array(4), 9] arrflat (9) [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        //复杂对象数组
+        let arr11=[
+            {'name':'a',list:['a1','a2','a3']},
+            {'name':'b',list:['b1','b2','b3','b4']},
+        ]  
+        let arr12=arr11.flatMap((item)=>{
+            return item.list
+        })
+        console.log(arr12);// ['a1', 'a2', 'a3', 'b1', 'b2', 'b3', 'b4']
+        
+   </script>
+</body>
+
+</html>

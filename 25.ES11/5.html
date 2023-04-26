@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //空值合并运算符??,只要??前面不是null、undefined,就输出??前面的值
+        let str=null??'aa'
+        let str_=null||'aa'
+        console.log(str,str_);//aa aa
+        let str1=undefined??'aa'
+        let str1_=undefined||'aa'
+        console.log(str1,str1_);//aa aa
+        let str2='bb'??'aa'
+        let str2_='bb'||'aa'
+        console.log(str2,str2_);//bb bb
+        let str3=0??'aa'
+        let str3_=0||'aa'
+        console.log(str3,str3_);//0 aa
+        let str4=false??'aa'
+        let str4_=false||'aa'
+        console.log(str4,str4_);//false 'aa'
+        //场景
+        let obj={name:'ss'}
+        console.log(obj.articles);//undefined
+        console.log(obj.articles||'无文章',obj.articles??'无文章');//无文章 无文章
+        let obj1={name:'ss',articles:0}//''一样
+        console.log(obj1.articles);//0
+        console.log(obj1.articles||'无文章',obj1.articles??'无文章');//无文章 0
+
+        //可选链操作付?.
+        let obj3={
+            name:'ss',
+            location:{
+                city:'shanghai'
+            }
+        }
+        console.log(obj3.location.city);//shanghai
+        console.log(obj3 && obj3.location && obj3.location.city);//shanghai
+        console.log(obj3?.location?.city);//shanghai
+        console.log(obj3?.location?.city?.street??'没有地址');//没有地址
+    </script>
+</body>
+</html>

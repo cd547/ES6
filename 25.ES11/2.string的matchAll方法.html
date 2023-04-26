@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        //字符串matchAll
+        let str = `<ul>
+        <li>1111</li>
+        <li>222</li>
+        <li>3333</li>
+        <li>44444</li>
+    </ul>`
+
+        let reg = /<li>(.*)<\/li>/g
+        console.log(str.match(reg));//只能捕获到元素，不能把元素的内容分离
+        //捕获
+        let reg1 = /<li>(?<content>.*)<\/li>/g
+        console.log(reg1.exec(str));//一次只捕获一个 ['<li>1111</li>', '1111', index: 13, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+        console.log(reg1.exec(str));//会记住上次捕获的，向下接着找 (2) ['<li>222</li>', '222', index: 35, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+        console.log(reg1.exec(str));//(2) ['<li>3333</li>', '3333', index: 56, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+        console.log(reg1.exec(str));//(2) ['<li>44444</li>', '44444', index: 78, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+        console.log(reg1.exec(str));//null
+
+        console.log('===优化===');
+        let reg2 = /<li>(?<content>.*)<\/li>/g
+        let match = null
+        let list = []
+        while (match = reg2.exec(str)) {
+            console.log(match.groups.content);
+            list.push(match.groups.content)
+        }
+        console.log('list', list);
+        //改用matchAll
+        console.log('改用matchAll');
+        console.log(str.matchAll(reg2));//RegExpStringIterator {}
+        for (item of str.matchAll(reg2)) {
+            console.log('item', item);
+            /*item (2) ['<li>1111</li>', '1111', index: 13, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+2.html:46 item (2) ['<li>222</li>', '222', index: 35, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+2.html:46 item (2) ['<li>3333</li>', '3333', index: 56, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+2.html:46 item (2) ['<li>44444</li>', '44444', index: 78, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]*/
+        }
+        let obj=str.matchAll(reg2)
+        console.log([...obj]);// 
+        /*
+        0: (2) ['<li>1111</li>', '1111', index: 13, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+1: (2) ['<li>222</li>', '222', index: 35, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+2: (2) ['<li>3333</li>', '3333', index: 56, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+3: (2) ['<li>44444</li>', '44444', index: 78, input: '<ul>\n        <li>1111</li>\n        <li>222</li>\n  …   <li>3333</li>\n        <li>44444</li>\n    </ul>', groups: {…}]
+length: 4
+        */
+        
+
+
+    </script>
+</body>
+
+</html>

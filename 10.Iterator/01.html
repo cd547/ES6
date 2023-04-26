@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = ['aaa', 'bbb', 'bbbb']
+        console.log(arr);
+        //可以被for of遍历的是英文arr有Symbol(Symbol.iterator): ƒ values()
+        for (let item of arr) {
+            console.log(item)
+        }
+        //可以通过iterator接口实现遍历
+       let iter= arr[Symbol.iterator] ()//迭代器对象
+       console.log(iter);//Array Iterator {} 
+       //next方法
+       console.log(iter.next());//{value: 'aaa', done: false}
+       console.log(iter.next());//{value: 'bbb', done: false}
+       console.log(iter.next());//{value: 'bbbb', done: false}
+       console.log(iter.next());//{value: undefined, done: true}
+       //原生具备iterator的数据类型Array,Set,Map,String,arguments对象,NodeList对象
+        let str="撒士大夫大师傅"
+        let siter= str[Symbol.iterator] ()
+        console.log(siter.next());//{value: '撒', done: false}
+    </script>
+
+</body>
+
+</html>

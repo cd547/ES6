@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="./mypromise.js"></script>
+    <script>
+
+        var p = new myPromise((resolve, reject) => {
+            //resolve('qqq')
+            setTimeout(() => {
+               reject('qqq')
+                //resolve('qqq')
+            }, 1000);
+
+        })
+        // p.catch(err=>{
+        //     console.log('ct',err);
+            
+        // })
+        // p.then(res => {
+        //     console.log('mresolve', res);
+        //     //return 'bbb'
+        //     return new myPromise((resolve, reject) => {
+        //         //reject('bbb-nnn')
+        //         setTimeout(() => {
+        //             resolve('qqq')
+        //         }, 1000);
+        //     })
+        // }, err => {
+        //     console.log('merr', err);
+        //     //return 'bbb'
+        //     return new myPromise((resolve, reject) => {
+        //         //reject('bbb-nnn1')
+        //         setTimeout(() => {
+        //             resolve('qqq')
+        //         }, 1000);
+        //     })
+        // }).then(res => {
+        //     console.log('mresolve1', res);
+        // }, err => {
+        //     console.log('merr1', err);
+        // }).catch(err=>{
+        //     console.log('catcherr',err);
+            
+        // })
+        //
+        p.then(res => {
+            console.log('mresolve', res);
+            //return 'bbb'
+            return new myPromise((resolve, reject) => {
+                //reject('bbb-nnn')
+                setTimeout(() => {
+                    //resolve('qqq')
+                    reject('bbb-nnn')
+                }, 1000);
+            })
+        }).catch(err=>{
+            console.log('ct',err);
+            
+        })
+    </script>
+</body>
+
+</html>

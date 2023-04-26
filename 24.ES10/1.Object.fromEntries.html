@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //将键值对列表转成obj
+        //arr->object
+        let arr = [['name', 'aa'], ['age', 100]]
+        console.log(Object.fromEntries(arr))//object
+
+        //map->object
+        let m = new Map()
+        m.set('name', 'bb')
+        m.set('age', 100)
+        console.log(Object.fromEntries(m));
+
+        //str->object
+        let str = 'name=aaa&age=100'
+        let searchParms = new URLSearchParams(str)
+        console.log('search', searchParms);//
+        console.log('searchgetname', searchParms.get('name'));//aaa
+        console.log('searchgetage', searchParms.get('age'));//100
+        console.log(Object.fromEntries(searchParms));//{name: 'aaa', age: '100'}
+
+        //获取obj中每个属性里数组的数量
+        let obj = {
+            'A': ['A1', 'A2', 'A3'],
+            'B': ['B1', 'B2'],
+            "C": ['C1', 'C2', 'C3', 'C4'],
+        }
+        let arr1 = Object.entries(obj)//object=>array
+        console.log('arr1', arr1);
+        let newarr0 = arr1.map(v => {
+            console.log('v', v);//v (2) ['A', Array(3)]
+
+        })
+        let newarr = arr1.map((v, i) => {
+            console.log('v', v, 'i', i);//v (2) ['A', Array(3)] i 0
+
+        })
+        let newarr1 = arr1.map(([key, value]) => {
+            console.log('key', key, 'value', value,'length',value.length);//key A value (3) ['A1', 'A2', 'A3'] length 4
+            return [key,value.length]
+        })
+        //简写 let newarr1 = arr1.map(([key, value]) => [key,value.length])
+        console.log(newarr1);//键值对array
+        console.log(Object.fromEntries(newarr1));//{A: 3, B: 2, C: 4}
+        //console.log(Object.fromEntries(arr1));
+
+    </script>
+</body>
+
+</html>

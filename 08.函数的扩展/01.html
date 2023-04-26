@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //参数默认值
+        function ajax(url, method, async) {
+            console.log(url, method, async);
+        }
+        ajax('/aa', 'get', true)//aa get true
+        function ajax1(url, method = 'get', async = true) {
+            console.log(url, method, async);
+        }
+        ajax1('/aa')//aa get true
+        //rest参数，剩余参数
+        function t1(...data) {
+            console.log(arguments);//方案一
+            console.log(data);//方案二
+        }
+        t1(1, 2, 3, 4)//Arguments(4) [1, 2, 3, 4, callee: (...), Symbol(Symbol.iterator): ƒ]
+        //[1, 2, 3, 4]
+        function t2(x, y, ...data) {
+            console.log(data);
+        }
+        t2(1, 2, 3, 4)// [3, 4]
+
+        //name属性，函数的名字
+        console.log(t2.name);//t2
+
+        
+    </script>
+</body>
+
+</html>

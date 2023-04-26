@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let obj = { name: 'aa' }
+        let obj1 = obj//引用计数+1,只要对象引用计数大于0，内存不自动释放
+        obj = null
+        console.log('obj', obj);//null
+        console.log('obj1', obj1);//{name: 'aa'}
+        obj1 = null
+        console.log('obj1', obj1);//null
+        ////////////////////////////////////////////////////////////////
+        let obj2 = { name: 'aa' }
+        let s1 = new Set()
+        s1.add(obj2)
+        s1.add('aaaa')
+        console.log('s1', s1); //Set(2) {{…}, 'aaaa'}
+        obj2 = null
+        console.log('s1', s1); //Set(2) {{…}, 'aaaa'}
+        console.log(s1.has(obj2)); //false,找不到了
+        for (let i of s1) {
+            console.log('i', i)//但是还是可以访问到，只是这个obj2不受垃圾回收机制控制了
+        }
+
+        /*
+        WeakSet:元素不能是基本类型，只能是复合类型（数组，对象，函数）.
+        引用复合类型时，不会引用计数+1.
+        不可以使用for of(不可迭代)
+        没有size
+        用处，存储dom节点，不会引发内存泄漏
+        */
+
+        let obj3 = { name: 'aa' }
+        let s2 = new WeakSet()
+        s2.add(obj3)
+        //s2.add('aaa')//Uncaught TypeError: Invalid value used in weak set
+        obj3 = null
+        console.log('s2', s2); //WeakSet {{…}}
+        //  for(let i of s2){console.log(i)}//2.WeakRefs.html:41  Uncaught TypeError: s2 is not iterable
+        console.log('size', s2.size) //undefined
+
+        //Map
+        let obj4 = { name: 'aa' }
+        let map = new Map();
+        map.set(obj4, 'dd')
+        console.log(map)//Map(1) {{…} => 'dd'}
+        obj4 = null
+        console.log(map)//Map(1) {{…} => 'dd'}
+
+        let obj5 = { name: 'aa' }
+        let map1 = new WeakMap();
+        map1.set(obj5, 'dd')
+        console.log(map1)//Map(1) {Object => "dd"}
+        obj5 = null
+        let mm = new Map();//自执行函数前面分号“;”不能省略
+        (function () {
+            let a = 1
+            let b = 2
+            let arr1 = new Array(10 * 1024 * 1024)
+            let arr2 = new Array(10 * 1024 * 1024)
+            let arr3 = new Array(10 * 1024 * 1024)
+            let arr4 = new Array(10 * 1024 * 1024)
+            let arr5 = new Array(10 * 1024 * 1024)
+            let arr6 = new Array(10 * 1024 * 1024)
+            let arr7 = new Array(10 * 1024 * 1024)
+            let arr8 = new Array(10 * 1024 * 1024)
+            //上面这些变量执行完成后会被回收
+            mm.set(arr1, "11")
+            mm.set(arr2, "11")
+            mm.set(arr3, "11")
+            mm.set(arr4, "11")
+            mm.set(arr5, "11")
+            mm.set(arr6, "11")
+            mm.set(arr7, "11")
+            mm.set(arr8, "11")
+        })()
+        //执行后到memory中，选择堆快照，点击“获取快照”
+        console.log(mm)//Map(8) {Array(10485760) => '11', Array(10485760) => '11', Array(10485760) => '11', Array(10485760) => '11', Array(10485760) => '11', …}
+
+        let mm1 = new WeakMap();//自执行函数前面分号“;”不能省略
+        (function () {
+            let a = 1
+            let b = 2
+            let arr11 = new Array(10 * 1024 * 1024)
+            let arr12 = new Array(10 * 1024 * 1024)
+            let arr13 = new Array(10 * 1024 * 1024)
+            let arr14 = new Array(10 * 1024 * 1024)
+            let arr15 = new Array(10 * 1024 * 1024)
+            let arr16 = new Array(10 * 1024 * 1024)
+            let arr17 = new Array(10 * 1024 * 1024)
+            let arr18 = new Array(10 * 1024 * 1024)
+            //上面这些变量执行完成后会被回收
+            mm1.set(arr11, "11")
+            mm1.set(arr12, "11")
+            mm1.set(arr13, "11")
+            mm1.set(arr14, "11")
+            mm1.set(arr15, "11")
+            mm1.set(arr16, "11")
+            mm1.set(arr17, "11")
+            mm1.set(arr18, "11")
+        })()
+        console.log(mm1);//WeakMap,空
+    </script>
+</body>
+
+</html>

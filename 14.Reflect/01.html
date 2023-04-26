@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.Reflect：代替Object某些方法
+        let obj = {}
+        // Object.defineProperty(obj,'name',{value:"myy"})
+        Reflect.defineProperty(obj, 'name',
+            {
+                value: "myy1",
+                writable: false,//是否可以写
+                enumerable: false,//属性是否可以删除
+            })
+        console.log(obj);
+
+        //2.修改某些Ojbect方法返回的结果
+        let obj1 = {}
+        //老写法
+        try {
+            Object.defineProperty(obj1, "name", {
+                value: '',
+                writable: false,
+                enumerable: false,
+            });
+            Object.defineProperty(obj1, "name", {
+                value: '1'
+            });
+        }
+        catch (e) {
+            //
+            console.log(e);
+
+        }
+        console.log(obj1);  //TypeError: Cannot redefine property: name
+        //at Function.defineProperty (<anonymous>)
+        //at 01.html:32:20
+        //Reflect写法
+        let obj2 = {}
+        Reflect.defineProperty(obj2, "name", {
+            value: '',
+            writable: false,
+            enumerable: false,
+        });
+        let res = Reflect.defineProperty(obj2, "name", {
+            value: '1'
+        });
+        console.log('res', res);//res false
+
+        //3.命令式的语法变为函数式
+        //命令式
+        let obj3 = { name: '1' }
+        console.log('name' in obj3);//true
+        delete obj3.name;
+        //函数式
+        let obj4 = { name: '1' }
+        console.log(Reflect.has(obj4, 'name'));//true
+        console.log(Reflect.deleteProperty(obj4, 'name'));//true
+
+        //(重点)4.配合Proxy
+        let obj5 = { name:'pro'}
+        Reflect.set(obj5,"age",10)
+        console.log(obj5.age);//10
+        console.log( Reflect.get(obj5,"age"));//10
+
+        let set = new Set()
+        let proxy = new Proxy(set, {
+            get(target, key) {
+                console.log('get',Reflect.get(target,key));// target[key]
+                //！！！！！如果是方法,需要修改this指向
+                if(Reflect.get(target,key) instanceof Function){
+                    //call，apply(修改this指向并同时调用)  bind（修改this指向）
+                    //target.target[key]
+                    return   Reflect.get(target,key).bind(target)//把value里的this指向了target
+                }
+                return target[key] //必须return，不然没有效果
+            },
+            set(target, key, value) {
+                console.log('set', target, key, value);
+                if (key === 'data') {
+                    box.innerHTML = value
+                }
+                target[key] = value//更新,但是一些内置方法无效，比如Set的size（set.size=100无效）
+                Reflect.set(...arguments)//Reflect.set(target, key, value)的简写，代理了默认行为，无需上面一行的操作
+            },
+            //获取proxy中是否有属性
+            has() {
+                return false//始终false
+            }
+        })
+
+        let arr=[1,2,3]
+        let proxy1=new Proxy(arr,{
+            get(){
+                console.log(...arguments);
+                return Reflect.get(...arguments)
+            },
+            set(){
+                console.log(...arguments);
+                return Reflect.set(...arguments)//必须有，如果Proxy1的set方法不返回任何值，那么当调用该方法时，将不会得到期望的返回值。 JavaScript引用类型本质上都是对象，特指 Object 类型，而函数本质上也是 Object 类型，这意味着函数也可以被当作一个Objct看待，只不过其内部包装了一些代码从而使它拥有execute能力。所以当我们将函数指向一个变量时，可以称之为 “引用函数” 即调用set方法时，返回一个指定的Object，它是一个Function，而 Function 就像一个Object，只不过其内部封装了一条特定的代码用于在相应的情况下执行。所以，当你调用set方法时，必须有一个return，返回一个指代函数的Object。
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let obj = {
+            name: 'aaa',
+            getName() {
+                console.log(this.name);
+            }
+        }
+        obj.name = 'ddd'//冲突
+        obj.getName()//ddd
+
+        //生成symbol数据
+        let s1 = Symbol()
+        let s2 = Symbol()
+        console.log(s1 == s2);//false
+        //1.不能进行运算
+        //2.toString() 无意义
+        console.log(s1.toString());//Symbol()
+        //3.隐式转换bollean
+        if (s1) {
+            //true
+        }
+
+        let obj1 = {
+            name: 'bbb',
+            getName() {
+                console.log(this.name);
+            }
+        }
+        let name = Symbol()
+        obj1[name] = 'ss'
+        obj1.getName()//bbb
+        console.log(obj1[name], obj1.name);//ss bbb
+        
+        let keyName={
+            name:Symbol(),
+            age:Symbol(),
+            sex:Symbol(),
+            method:Symbol()
+        }
+        let newobj={
+            [keyName.name]:'wwww',
+            [keyName.age]:1,
+            [keyName.sex]:'male',
+            [keyName.method](){
+                console.log('this.name', this[keyName.name]);
+
+            }
+        }
+        newobj[keyName.method]() //this.name wwww
+
+        let keyName1={
+            name:Symbol('name'),
+            age:Symbol('age'),
+            sex:Symbol('sex'),
+            method:Symbol('method')
+        }
+        let newobj1={
+            [keyName1.name]:'wwww',
+            [keyName1.age]:1,
+            [keyName1.sex]:'male',
+            [keyName1.method](){
+                console.log('this.name', this[keyName1.name]);
+
+            }
+        }
+        newobj1.name='name'
+       console.log(newobj1);
+       //Symbol 不能使用for in ，for in只能遍历普通属性
+       for(let i in newobj1){
+        console.log('i',i);//i name 没有输出Symbol属性
+       }
+       //拿到所有symbol属性
+       console.log('Object.getOwnPropertySymbols',Object.getOwnPropertySymbols(newobj1));//[Symbol(name), Symbol(age), Symbol(sex), Symbol(method)]
+       //获取对象普通属性和Symbol属性
+       console.log(Reflect.ownKeys(newobj1));//['name', Symbol(name), Symbol(age), Symbol(sex), Symbol(method)]
+       //遍历
+       Reflect.ownKeys(newobj1).forEach(item=>{
+        console.log(item,newobj1[item]);
+        
+       })
+       
+    </script>
+</body>
+
+</html>

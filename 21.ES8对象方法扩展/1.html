@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let obj = {
+            name: 'document',
+            age: 100
+        }
+        console.log(Object.keys(obj));
+        console.log(Object.values(obj));//ES8
+        console.log(Object.entries(obj));
+        //obj->map
+        let m = new Map([["name", "document"], ['age', 100]])
+        console.log(m);
+        let m1 = new Map(Object.entries(obj))
+        console.log(m1);
+
+        //克隆，有些对象除了有属性还有方法，普通的 Object.assign不行
+      
+
+        let obj1 = {
+            name: 'document',
+            age: 100,
+            location:{
+               province:"江苏",
+               city:'shanghai'
+            },
+            get name() {
+                console.log('get');
+                //retrun this.name 会死循环
+
+            },
+            set name(value) {
+                console.log('set', value);
+            },
+
+            get city(){
+                return this.location.city
+            },
+            set city(value) {
+                this.location.city=value
+                console.log('set', value);
+            }
+        }
+        let objclone={}
+        Object.assign(objclone,obj1)//不完全克隆，只克隆属性
+        console.log(obj1);
+        console.log(objclone);
+       //完整克隆
+       let absolutelyObj={}
+       Object.defineProperties(absolutelyObj,Object.getOwnPropertyDescriptors(obj1))
+        console.log(absolutelyObj);
+
+
+    </script>
+</body>
+
+</html>

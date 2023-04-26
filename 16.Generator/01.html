@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function* gen() {
+            console.log(11)
+            yield
+            console.log(12)
+            yield
+            console.log(13)
+        }
+        let g = gen();
+        g.next() //11
+        g.next() //12
+        g.next() //13
+        g.next() //
+
+
+        //////////////////
+
+        function* gen1() {
+            console.log(11)
+            yield '111'
+            console.log(12)
+            yield '222'
+            console.log(13)
+        }
+        let g1 = gen1();
+        let a1 = g1.next() //11
+        console.log('a1', a1);//a1 {value: '111', done: false}
+        a1 = g1.next() //12
+        console.log('a1', a1);//a1 {value: '222', done: false}
+        a1 = g1.next() //13
+        console.log('a1', a1);//a1 {value: undefined, done: true}
+        a1 = g1.next() //
+        console.log('a1', a1);//a1 {value: undefined, done: true}
+        ////////////////////////////////////////////////////////////////
+        function* gen3() {
+            console.log(11)
+            yield '111'
+            console.log(12)
+            yield '222'
+            console.log(13)
+        }
+        let g3 = gen3();
+        for (let i of g3) {
+            console.log('i', i);
+        }
+        console.log('有return情况')
+        function* gen4() {
+            yield '111'
+            yield '222'
+            return '333'
+        }
+        let g4 = gen4();
+        for (let i of g4) {
+            console.log('i', i);//for of 遍历不到333，因为return
+        }
+        console.log('g4',g4);
+        
+        console.log('无return情况')
+        function* gen5() {
+            yield '111'
+            yield '222'
+            yield '333'
+        }
+        let g5 = gen5();
+        for (let i of g5) {
+            console.log('i', i);
+        }
+    </script>
+</body>
+
+</html>

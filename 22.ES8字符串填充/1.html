@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //padStart
+        let str='cd'
+        console.log(str.padStart(10,'x'));//xxxxxxxxcd
+        let str1='cccddd'
+        console.log(str1.padStart(5,'x'));//cccddd
+         //padEnd
+        console.log(str.padEnd(10,'x'));//cdxxxxxxxx
+        console.log(str1.padEnd(5,'x'));//cccddd
+
+        // 01 02 03 04 05 06 07...12
+        let  list=[]
+        for(let i=1; i<13;i++){
+            //list.push(i.toString().padStart(2,'0')); //padStart、padEnd是string的方法
+            list.push((i+'').padStart(2,'0')); 
+        }
+        console.log('list',list);
+        //数组最后一个元素后可以有逗号
+        let arr=[1,2,]
+        //函数参数最后加逗号直到ES8才支持
+        function f1(a,b,){}
+    </script>
+</body>
+</html>

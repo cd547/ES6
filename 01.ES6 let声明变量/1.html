@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <ul>
+        <li>11</li>
+        <li>22</li>
+        <li>33</li>
+    </ul>
+    <script>
+        //1.块级作用域
+        // //var容易跳出块级{}污染全局
+        // {
+        //     var i = 100
+        // }
+        // console.log(i);//100
+
+        // {
+        //     let a = 100
+        // }
+        // console.log(a);// Uncaught ReferenceError: a is not defined
+
+        //点击li显示索引值。下面点击每次值都一样，因为oli[i].onclick是异步的，
+        //var i是全局的。for完事后这个i还在，且=3。每次点击时
+        // var oli=document.querySelectorAll('ul li')
+        // for(var i=0;i<oli.length;i++){
+        //     oli[i].onclick=function(){
+        //         console.log(i);
+        //     }
+        // }
+        //解决方法1，每个节点添加自定义属性
+        // var oli=document.querySelectorAll('ul li')
+        // for(var i=0;i<oli.length;i++){
+        //     oli[i].index=i
+        //     oli[i].onclick=function(){
+        //         console.log(this.index);
+        //     }
+        // }
+        //解决方法2 let
+        var oli = document.querySelectorAll('ul li')
+        for (let i = 0; i < oli.length; i++) {
+            oli[i].onclick = function () {
+                console.log(i);
+            }
+        }
+
+    </script>
+</body>
+
+</html>

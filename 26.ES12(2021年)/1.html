@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //&&=、||=、??=
+        let b = false
+        let c = true
+        b = b && c //false
+        console.log(b);
+        //等价写法
+        b &&= c//false
+        b ||= c//true
+        console.log('b', b);
+
+        let obj = {
+            aa: 0
+        }
+        obj.aa = obj.aa ?? '没有值'
+        obj.bb = obj.bb ?? '没有值'
+        console.log(obj.aa, obj.bb);//0 '没有值'
+        obj.bb ??= '没有值'
+        obj.aa ??= '没有值'
+        console.log(obj.aa, obj.bb);//0 '没有值'
+
+        //数字分隔符,方便看代码
+        const num = 121232131
+        const number = 121_232_131
+        console.log(num === number);
+
+        let numbin = 0b0001010
+        let numbin1 = 0b000_1010
+
+        let numo = 0o1371345
+        let numo1 = 0o1_37_13_45
+
+        //replaceAll
+        let str = `i www aa wwww sss bb www w www wswwdeeww wwe ssww`
+        console.log(str.replace('ww', '*'));//*w aa wwww sss bb www w www wswwdeeww wwe ssww
+        console.log(str.replace(/ww/g, '*'));//*w aa ** sss bb *w w *w ws*dee* *e ss*
+        console.log(str.replaceAll('ww', '*'));//*w aa ** sss bb *w w *w ws*dee* *e ss*
+        //Promise.any
+        /*
+        Promise.all:（并发）所有异步都完成，且都成功走then，不然catch
+        Promise.race:（并发）最快的异步走完
+        Promise.allSettled:（并发）所有异步都完成，都会走then
+        Promise.any:只要有一个成功就走then，如果全是失败，走catch
+        */
+        let ajax1 = function () {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('1ok')
+                } ,10000)
+            
+        })
+    }
+        let ajax2 = function () {
+            return new Promise((resolve, reject) => {  setTimeout(() => {
+                    resolve('2ok')
+                },5000)
+            })
+        }
+        let ajax3 = function () {
+            return new Promise((resolve, reject) => { reject('3err') })
+        }
+        Promise.any([ajax1(), ajax2(), ajax3()]).then(res => {
+            console.log('res', res);//res 2ok
+
+        }).catch(err => {
+            console.log('err', err);
+        })
+    </script>
+</body>
+
+</html>

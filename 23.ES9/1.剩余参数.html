@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //剩余参数
+        let obj = {
+            name: 'aaa',
+            age: 100,
+            location: 'sss'
+        }
+        let { name1, other1 } = obj
+        console.log(name1, other1);//undefined,undefined
+        let { name, ...other } = obj
+        console.log(name, other);
+
+        function t({ name, ...other }) {
+            console.log(name, other);
+        }
+        t(obj)
+
+        let obj2 = { a: '2', b: '1' }
+        let obj3 = { a: '22', c: '2' }
+        let obj4 = { ...obj2, ...obj3 }//重名被后者覆盖
+        console.log(obj4);
+
+        //有时候在调用函数时，不必所有参数都写上，但在函数执行时，怕缺少参数。所以需要一个默认参数
+        function ajax(options) {
+            const defaultOptions = {
+                methods:'get',
+                async:true
+            }
+            options={...defaultOptions,...options}//让options里的参数替换defaultOptions里的重名参数。options里没有的参数，defaultOptions默认赋值
+        console.log('options',options);
+        
+        }
+        ajax({url: 'aaa'})
+
+        //浅复制
+        let obj5={
+            name:'dddd',age:100
+        }
+        let obj5_copy={...obj5}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li>a0</li>
+        <li>a1</li>
+        <li>a2</li>
+        <li>a3</li>
+        <li>a4</li>
+    </ul>
+    <script>
+        //对象 非线性，默认没有迭代。可以添加
+        let obj = {
+            0: '111',
+            1: '222',
+            2: '333',
+            length: 3,//添加长度
+            [Symbol.iterator]: Array.prototype[Symbol.iterator]//添加iterator方法
+        }
+        for (let i of obj) {
+            console.log('i', i);
+        }
+        //i 111 i 222 i 333
+        //res默认不可以迭代
+        let res = {
+            code: 200,
+            msg: 'success',
+            list: ['a', 'b', 'c', 'd', 'e'],
+            [Symbol.iterator]() {
+                console.log('this', this);//this {code: 200, msg: 'success', list: Array(5), Symbol(Symbol.iterator): ƒ}
+                let index = 0
+                return {
+                    //next(){
+                    // console.log('this1', this)//this1 {next: ƒ},普通函数不行，需要通过箭头函数
+                    next: () => {
+                        return {
+
+                            value: this.list[index++],
+                            done: index >= (this.list.length + 1) ? true : false
+                        }
+                    }
+                }
+            }
+        }
+        let iterres = res[Symbol.iterator]()
+        console.log(iterres);
+        console.log(iterres.next());
+        console.log(iterres.next());
+        console.log(iterres.next());
+        console.log(iterres.next());
+        console.log(iterres.next());
+        console.log(iterres.next());
+        console.log(iterres.next());
+        //这样就可以用for of了
+        for (let ii of res) {
+            console.log('ii', ii);
+        }
+        //并且也可以使用...展开运算符，变成数组.因为展开运算符会调用里面的迭代器
+        console.log('...', [...res]);//... (5) ['a', 'b', 'c', 'd', 'e']
+
+        //
+        let oli=document.querySelectorAll('li')
+        console.log('...', [...oli]);//... (5) [li, li, li, li, li]
+        
+    </script>
+
+</body>
+
+</html> 

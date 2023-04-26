@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">登录</button>
+    <button id="btn1">登录1</button>
+    <script type="module">
+        //1.Promise.allSettled（全能走then，不会触发catch）
+        //Promise.all（必须全成功才能走then，不然就catch）
+
+        //2.动态导入import()
+        function login() {
+            return 'gg'
+        }
+        let btn = document.querySelector('#btn')
+        console.log('btn', btn)
+        btn.onclick = function () {
+            let role = login()
+            console.log('role', role);
+            render(role)
+        }
+        function login1() {
+            return 'g1g'
+        }
+
+        let btn1 = document.querySelector('#btn1')
+        console.log('btn1', btn1)
+        btn1.onclick = function () {
+            let role = login1()
+            console.log('role', role);
+            render(role)
+        }
+
+        async function render(role) {
+            let a
+            if (role == 'gg') {
+                a = await import('./1.js')
+                console.log('a', a);
+            } else {
+
+                a = import('./2.js')
+                console.log('a', a.then(res => {
+                    console.log('aa', res);
+                }));
+            }
+
+        }
+        //3.import.meta:显示模块路径
+
+        //4.export * as
+        import * as all from './3.js'
+        console.log('all', all);
+        import * as obj4 from './3_add.js'
+        console.log('all4', obj4);
+
+        import dd,{obj3,t4} from './3_add.js'
+        console.log('dd',dd);
+        console.log('obj3',obj3);
+        console.log('t4',t4);
+    </script>
+</body>
+
+</html>

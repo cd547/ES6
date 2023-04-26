@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //对象属性，方法简写
+        let obj = {
+            name: "moduleA",
+            test1: function () {
+
+            },
+            test2: function () {
+
+            }
+        }
+        let name = "moduleA"
+        let obj1 = {
+            name,
+            test1() {
+
+            },
+            test2() {
+
+            }
+        }
+
+        //对象属性表达式
+        let name1 = 'a'
+        let obj2 = {
+            name1: 'b'
+        }
+        console.log(obj2.name1);//b
+        let name2 = 'a'
+        let obj3 = {
+            [name2]: 'b'
+        }
+        console.log(obj2);//{name1: 'b'}
+
+        //扩展运算符... ES2018
+        let obj4 = {
+            name: 'aaa'
+        }
+        let obj5 = {
+            ...obj4
+        }
+        console.log(obj5);//{name: 'aaa'}
+        obj5.name = 'bbb'
+        console.log(obj5, obj4);//{name: 'bbb'} {name: 'aaa'}
+
+        //合并
+        let obj6 = { name: 'nnn' }
+        let obj7 = { age: 16 }
+        console.log({ ...obj6, ...obj7 });//{name: 'nnn', age: 16}
+        let obj66 = { name: 'nnn' }
+        let obj77 = { age: 16, name: 'new' }//后面的会替换前面的同名属性
+        console.log({ ...obj66, ...obj77 });//{name: 'new', age: 16}
+        //Object.assign //会影响第一个参数
+        let obj8 = { name: 'nnn' }
+        let obj9 = { age: 16 }
+        console.log(Object.assign(obj8, obj9), obj8);//{name: 'nnn', age: 16} {name: 'nnn', age: 16}
+        let objnew = {}//推荐先新建一个空的对象
+        let obj88 = { name: 'nnn' }
+        let obj99 = { age: 16 }
+        console.log(Object.assign(objnew, obj88, obj99), objnew);//{name: 'nnn', age: 16} {name: 'nnn', age: 16}
+
+        //Object.is判断NaN是否相等。 ===不能判断NaN是否相等
+        console.log(Object.is(5, 5));//true
+        console.log(Object.is(5, "5")); //false
+        console.log(Object.is({}, {})); //false
+        console.log(Object.is(NaN, NaN));//true
+        console.log(parseInt('xsx'), Object.is(parseInt('xsx'), NaN));//true
+        //+0和-0是否相等
+        console.log(+0 === -0, Object.is(+0, -0));//true false
+    </script>
+</body>
+
+</html>

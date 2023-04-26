@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box"></div>
+    <script>
+        let obj = {}
+        //添加一个属性,并可以拦截get，set
+        Object.defineProperty(obj, 'data', {
+            get() {
+                console.log('get');
+                return box.innerHTML
+                //因为在JavaScript中，box是变量名称，它指代了document.getElementById('box')的值，以此获得页面中id为box的DOM元素。
+            },
+            set(value) {
+                console.log('set',value);
+                box.innerHTML = value;
+            }
+        })
+        console.log(obj);//{data: undefined}
+       //不能对数组操作
+       //每次只能一个属性
+    
+
+    </script>
+</body>
+
+</html>

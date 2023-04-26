@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        console.log(globalThis === window);
+
+        let obj = {
+            name: 'aa',
+            getName() {
+                console.log(this,globalThis);
+                return this.name
+            }
+        }
+        obj.getName()//{name: 'aa', getName: ƒ}  Window {window: Window, self: Window, document: document, name: '', location: Location, …}
+        //浏览器环境:window ,webworker:self,node:global,跨平台用
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="like">like</button>
+    <button id="like1">like1</button>
+    <script>
+        let wmap = new WeakMap()
+        let like = document.getElementById("like")
+
+        // let c=0
+        // wmap.set(like,c)
+        // like.onclick=function(){
+        //     let times=wmap.get(like)
+        //     times++
+        //     wmap.set(like,times) // 将新值存入 WeakMap
+        // };
+
+        wmap.set(like, { click: 0 })
+        like.onclick = function () {
+            let times = wmap.get(like)
+            times.click++
+        };
+        /*比较
+        后面的代码使用对象 {click: 0} 来存储按钮的点击次数，因为在 JavaScript 中变量可以存储各种类型的值，包括基本类型和对象类型。当使用基本类型（如数字、字符串等）来存储状态时，须注意每次更新状态都需要将新值存回到 wmap 中。
+        而使用对象来存储状态，则可以通过修改该对象的属性值来更新状态，无需重复将对象存储回 wmap 中。这个技巧通常被称为“对象引用”，它允许我们在多个地方共享同一个对象，并在对象上存储和检索数据。
+        在后面的代码中，使用了一个包含 click 属性的对象来存储按钮的点击次数。在处理按钮点击事件时，只需要从 wmap 中获取该对象并递增其 click 属性即可。由于 wmap 中存储的是对象的引用，所以在更新该对象后，其实也就已经将新值保存回了 wmap 中。
+        */
+        setTimeout(() => {
+            document.body.removeChild(like)
+            console.log('like', like);
+            //like还在
+        }, 2000)
+
+        //不能使用第三方的变量引用，比较麻烦
+        let wmap1 = new WeakMap()
+        wmap1.set(document.getElementById("like1"), { click: 0 })
+        document.getElementById("like1").addEventListener('clck', function () {
+            let times = wmap.get(document.getElementById("like1"))//document.getElementById("like1")
+            times.click++
+        }, false)
+        setTimeout(() => {
+            document.body.removeChild(document.getElementById("like1"))
+            console.log('like1', document.getElementById("like1"));//null
+
+        }, 2000)
+//一般对象引用都是强引用，只要有对象的引用就不会被垃圾回收
+
+
+
+    </script>
+</body>
+
+</html>

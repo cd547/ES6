@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //转换成promise对象
+        var p = Promise.resolve('aa')
+        console.log(p);
+        //参数也可以是一个Promise对象
+        var p2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('resolve')
+            }, 1000);
+        })
+        var p3 = Promise.resolve(p2)
+        console.log(p3);
+
+        // var p22 = new Promise((resolve, reject) => {
+        //     setTimeout(() => {
+        //         reject('reject')
+        //     }, 1000);
+        // })
+        //  var p33 = Promise.resolve(p22)
+        //  console.log(p33);
+
+        //缓存
+        function ajax(url) {
+            let cache = ajax.cache || (ajax.cache = { data: null })
+            if (cache.data) {
+                console.log('cache');
+                return Promise.resolve(cache.data)//把缓存转换成Promise
+            }
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', url, true);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        //接收完毕
+                        if (xhr.status >= 200 && xhr.status <= 300) {
+                            //ok
+                            console.log('no cache');
+                            resolve(JSON.parse(xhr.responseText));
+                            //缓存
+                            ajax.cache.data = JSON.parse(xhr.responseText)
+                        } else {
+                            //error
+                            reject(xhr.responseText)
+                        }
+                    }
+
+                }
+            })
+        }
+
+        ajax('server/data.json').then(res => {
+                console.log('成功', res);//
+            }).catch(err => {
+                console.log('出错', err);
+            })
+        
+        setTimeout(() => {
+            ajax('server/data.json').then(res => {
+                console.log('成功', res);//
+            }).catch(err => {
+                console.log('出错', err);
+            })
+        }, 1000)
+    </script>
+</body>
+
+</html>

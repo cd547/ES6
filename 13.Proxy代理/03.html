@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box"></div>
+    <script>
+        //Map和Set一样
+        let set = new Set()
+        let proxy = new Proxy(set, {
+            get(target, key) {
+                console.log('get', target[key]);
+                //！！！！！如果是方法,需要修改this指向
+                if(target[key] instanceof Function){
+                    //call，apply(修改this指向并同时调用)  bind（修改this指向）
+                    //target.target[key]
+                    return   target[key].bind(target)//把value里的this指向了target
+                }
+                return target[key] //必须return，不然没有效果
+            },
+            set(target, key, value) {
+                console.log('set', target, key, value);
+                if (key === 'data') {
+                    box.innerHTML = value
+                }
+                target[key] = value//更新
+            },
+            //获取proxy中是否有属性
+            has() {
+                return false//始终false
+            }
+        })
+        //proxy代理访问set的属性
+//proxy.size
+//get 0
+//0
+    </script>
+</body>
+
+</html>

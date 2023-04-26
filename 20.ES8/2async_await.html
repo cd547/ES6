@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function ajax() {
+            return new Promise((resolve, reject) => {
+                console.log('000');
+
+                resolve('111')
+                // reject('222')//catch
+            })
+        }
+        function ajax_sync() {
+            return new Promise((resolve, reject) => {
+                console.log('s000');
+                setTimeout(() => {
+                    console.log('s000-1');
+                    resolve('s222')
+                    //reject('ddddd')
+                }, 5000)
+            })
+        }
+
+        function ajax_async() {
+            return new Promise((resolve, reject) => {
+                console.log('000');
+                setTimeout(() => {
+                    console.log('000-1');
+                    resolve('333')
+                }, 1000)
+            })
+        }
+
+        async function a() {
+            console.log('aa');
+            //await 后接非promise对象
+            // let res = await '111'
+            // console.log(res);
+            let res = await new ajax()
+            console.log('res', res);
+
+
+            let res0 = ajax_sync()
+            console.log('res0', res0);
+
+            let res1 = await ajax_async()
+            console.log('res1', res1);
+            //*
+            let aa=await Promise.all([ajax_async(),ajax_sync()])
+            console.log('aa',aa);
+            
+            return {res1,res0}
+        }
+
+        a().then(res=>{
+            console.log('rrrr',res);
+        }).catch(err=>{
+            console.log('errrr',err);
+        })
+
+
+    </script>
+</body>
+
+</html>

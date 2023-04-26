@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //js之前整数范围-2^53到2^53，不包含2个端点
+        console.log('2^53', 2 ** 53);//2^53 9007199254740992
+        console.log('2^53+1', 2 ** 53 + 1);//2^53 9007199254740992
+        console.log(Math.pow(2, 53) === Math.pow(2, 53) + 1);//true
+
+        let num1 = 123
+        let num2 = 123n
+        console.log(num1, num2);
+        console.log(num1 == num2, num1 === num2);//true,false
+        console.log(num2 >= 100, num2 < 200);//true,true
+        //bigInt不能和普通进行加减的运算
+        //console.log(num2+2);//Uncaught TypeError: Cannot mix BigInt and other types, use explicit conversions
+        //BigInt
+        console.log(BigInt(2));//2n
+        console.log(num2 + BigInt(2));//125n
+        console.log(BigInt(num1) === num2);//true
+        console.log(BigInt(2 ** 53) + BigInt(1));//9007199254740993n
+
+        let jsonstr = `
+        {
+            "id":99999888887741551111,
+            "list":[]
+        }
+        `
+        console.log(JSON.parse(jsonstr));//{id: 99999888887741550000, list: Array(0)} .99999888887741550000!=99999888887741551111
+        //方案1.后端将id装字符串
+        //方案2.引入模块json-bigint,但需要webpack
+    </script>
+</body>
+
+</html>

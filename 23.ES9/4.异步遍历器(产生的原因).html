@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+//异步任务，1->2->3
+        function timer(t){
+            return new Promise(resolve=>{
+                console.log('t',t);
+                setTimeout(()=>{
+                    resolve('data-'+t)
+                },t)
+               
+            })
+        }
+
+        async function  test(){
+            let tasks=[timer(1000), timer(2000),timer(3000)]
+            //for里面是并发的
+            for(let item of tasks){ 
+                console.log('sart-',Date.now());
+                console.log(await item);   
+                console.log('end-',Date.now());  
+            }
+        }
+        test()//并不能按照1(等1s)->2(等2s)->3(等3s)
+
+
+//同步
+//1.数组遍历
+        let arr=[1,3,3]
+        let i=arr[Symbol.iterator]()
+        console.log(i.next());//{value: 1, done: false}
+        console.log(i.next());//{value: 2, done: false}
+        console.log(i.next());//{value: 3, done: false}
+        console.log(i.next());//{value: undefined, done: true}
+        for(let i of arr){
+            console.log(i);
+        }
+//1.生成器遍历
+        function *gen(){
+            yield 11
+            yield 22
+        }
+        let g=gen()
+        // console.log(g.next());
+        // console.log(g.next());
+        // console.log(g.next());
+        
+        for(let i of g){
+            console.log(i);
+        }
+
+//异步
+        function ajax(data){
+            return new Promise(resolve => {
+                resolve(data)
+            })
+        }
+
+        function *gen1(){
+            yield ajax(111)
+            yield ajax(222)
+        }
+        let gg=gen1()
+        // console.log('ajax',gg.next());//这里都是promise
+        // console.log('ajax',gg.next());
+        // console.log('ajax',gg.next());
+        gg.next().value.then(res=>{
+            console.log(res);  
+        })
+        gg.next().value.then(res=>{
+            console.log(res);  
+        })
+        //如果再次使用   gg.next().value.then(res=>{console.log(res);  })会报错
+        
+
+
+
+
+    </script>
+</body>
+</html>

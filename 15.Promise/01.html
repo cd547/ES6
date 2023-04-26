@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function ajax(url, successCb, errorCb) {
+            setTimeout(() => {
+                successCb()
+                //errorCb()
+            }, 1000)
+        }
+        ajax('http://localhost', () => {
+            console.log('成功');
+        }, () => {
+            console.log('失败');
+        })
+
+        //Promise
+        var mypromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve()
+                //reject()
+            }, 1000)
+        })
+        mypromise.then(() => {
+            console.log('成功');
+        }, () => {
+            console.log('失败');
+        })
+
+        //catch里的函数只对应reject函数
+        var mypromise1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                //resolve()
+                reject()
+            }, 1000)
+        })
+        mypromise1.then(() => {
+            console.log('成功');
+        }, () => {
+            console.log('失败');
+        })
+        mypromise1.catch(() => {
+            console.log('出错');
+        })
+
+        //简写then catch
+        var mypromise2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                //resolve()
+                reject()
+            }, 1000)
+        })
+        mypromise2.then(() => {
+            console.log('成功');
+        }).catch(() => {
+            console.log('出错');
+        })
+
+        //封装ajax
+        function ajax_promise(url) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    reject()
+                }, 1000)
+            })
+
+        }
+        ajax_promise('ddd').then(() => {
+            console.log('ajax_success')
+        }).catch(() => {
+            console.log('ajax_error')
+        })
+    </script>
+</body>
+
+</html>

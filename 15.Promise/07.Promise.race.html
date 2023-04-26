@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function ajax(url) {
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', url, true);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        //接收完毕
+                        if (xhr.status >= 200 && xhr.status <= 300) {
+                            //ok
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            //error
+                            reject(xhr.responseText)
+                        }
+                    }
+
+                }
+            })
+        }
+        //promise.arce([p1,p2,p3])用于多个Promise实例包装成新的promise实例,新实例的状态由p1,p2,p3最早完成的决定
+        let p1=new Promise((resolve, reject)=>{
+            setTimeout(()=>{
+                resolve('p1')
+            },1000)
+        })
+        let p2=new Promise((resolve, reject)=>{
+            setTimeout(()=>{
+                resolve('p2')
+            },2000)
+        })
+        let p3=new Promise((resolve, reject)=>{
+            setTimeout(()=>{
+                reject('p3')
+            },1000)
+        })
+        //这里不能new
+        let prace= Promise.race([p1, p2]).then(res=>{
+            console.log(res);
+        })
+        //p1
+
+       
+        let prace1= Promise.race([p3, p2]).then(res=>{
+            console.log(res);
+        }) //如果不写catch Uncaught (in promise) p3
+        let prace2= Promise.race([p3, p2]).then(res=>{
+            console.log(res);
+        }).catch(err=>{
+            console.log('err',err);
+            
+        })
+
+        //ajax超时检测
+        let pa= ajax(`http://localhost:3000/p?name=aaa`)
+        let pTimeOut=new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                reject("超时")
+            },2000)
+        })
+        Promise.race([pa,pTimeOut]).then(res=>{
+            console.log('ok',res);
+        }).catch(err=>{
+            console.log('err',err);  
+        })
+    </script>
+</body>
+
+</html>

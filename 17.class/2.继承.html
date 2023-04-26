@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<div class="box1">
+    <h1></h1>
+    <ul></ul>
+</div>
+
+<div class="box2">
+    <h1></h1>
+    <img src="" style="width:50%" alt="">
+    <ul></ul>
+</div>
+
+<body>
+    <script>
+        class Person {
+            static classnmae = 'Person'
+            static stMethod = function () {
+                console.log('这是静态方法');
+
+            }
+            constructor(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+            say() {
+                console.log('hello');
+            }
+            f1() {
+                let a = 1
+                a++
+                console.log('a', a);
+
+            }
+        }
+
+        class Student extends Person {
+            //静态属性和方法也会被继承，重名会被覆盖
+            static classnmae = 'Student'
+            static stMethod = function () {
+                console.log('这是Student静态方法');
+
+            }
+            constructor(name, age, score) {
+                super(name, age)
+                this.score = score;
+            }
+            getScore() {
+                console.log('70');
+
+            }
+            //重名
+            say() {
+                console.log('Student say');
+            }
+            f2() {
+                super.f1()//执行父类方法
+                console.log('f1 end');
+
+            }
+        }
+
+        let obj = new Student('s1', 12, 23);
+        var data = {
+            title: 'sss',
+            list: ['1', '2', '3']
+        }
+        var data2 = {
+            title: 'sss',
+            list: ['1', '2', '3'],
+            url:'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA11MPlT.img'
+        }
+        class Box {
+            constructor(select, data) {
+                this.ele=document.querySelector(select)
+                this.title=data.title
+                this.list=data.list
+                this.render()
+            }
+            render(){
+                let h1=this.ele.querySelector('h1')
+                let ul=this.ele.querySelector('ul')
+                h1.innerHTML=this.title
+                ul.innerHTML=this.list.map(item=>`<li>${item}</li>`).join('')
+
+            }
+        }
+        new Box('.box1',data)
+
+        class Box1 extends Box {
+            constructor(select, data) {
+                super(select, data)
+                this.url=data.url
+                //父类的会先走一遍render
+                this.render()
+            }
+            render(){
+                console.log('url',this.url);//父类render
+                
+                super.render()
+                let img=this.ele.querySelector('img')
+                img.src=this.url
+            }
+        }
+        new Box1('.box2',data2)
+    </script>
+</body>
+
+</html>

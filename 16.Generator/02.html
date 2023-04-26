@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //netx传参
+        function* gen() {
+
+            let res1 = yield 'a'
+            console.log('res1', res1);
+
+            let res2 = yield 'b'
+            console.log('res2', res2);
+        }
+        let g = gen();
+        console.log(g.next('1111'));
+        console.log(g.next('2222'));
+        console.log(g.next('3333'));
+
+
+////////////////////////////////////
+console.log('///////////////////////////');
+
+        function ajax(url) {
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', url, true);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        //接收完毕
+                        if (xhr.status >= 200 && xhr.status <= 300) {
+                            //ok
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            //error
+                            reject(xhr.responseText)
+                        }
+                    }
+
+                }
+            })
+        }
+        function* gen1() {
+            let res1 = yield ajax('./data.json')
+            console.log('res1', res1);
+            res1 = yield ajax('./data1.json')
+            console.log('res1', res1);
+        }
+
+        let g1 = gen1()
+        g1.next().value.then(res=>{
+            g1.next(res).value.then(res1=>{
+                g1.next(res1)
+            })
+        })
+
+    </script>
+</body>
+
+</html>

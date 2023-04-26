@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="module">
+        console.log('开始');
+        
+   import moduleA from './1.js'
+    console.log('res',moduleA);//等到全部加载后才出数据
+
+    //上面会阻塞整个模块
+    //动态导入
+    console.log('开始1');
+    let mmm=await import('./1.js')
+    console.log('res11',mmm);
+    </script>
+</body>
+</html>

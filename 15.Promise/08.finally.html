@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function ajax(url) {
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', url, true);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        //接收完毕
+                        if (xhr.status >= 200 && xhr.status <= 300) {
+                            //ok
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            //error
+                            reject(xhr.responseText)
+                        }
+                    }
+
+                }
+            })
+        }
+
+        let p = new Promise((resolve, reject) => {
+            resolve('aaaa')
+        })
+        //Es2019 ES9发布finally,实例方法
+        //链式调用时可以当finally透明
+        p.then((res) => {
+            console.log('then', res);
+            return 'bbb'
+        }).catch((err) => {
+            console.log('err', err);
+        }).finally(() => {
+            console.log('finally');
+        }).then((res) => {
+            console.log('then1', res);
+        })
+
+
+        let p1 = new Promise((resolve, reject) => {
+            reject()
+        })
+        p1.then((res) => {
+            console.log('then', res);
+        }).catch((err) => {
+            console.log('err', err);
+            return 'errrbbbb'
+        }).finally(() => {
+            console.log('finally');
+        }).then((res) => {
+            console.log('then1', res);
+        })
+
+        //显示载入中，，，，
+        console.log('loadding......');
+
+        ajax(`http://localhost:3001/p?name=${"aaa"}`).then(res => {
+            console.log('ok', res);
+            //console.log('隐藏loadding......');
+        }).catch(err => {
+            console.log('err', err);
+            //console.log('隐藏loadding......');
+        }).finally(function () {
+            console.log('隐藏loadding......');
+        });
+
+    </script>
+</body>
+
+</html>

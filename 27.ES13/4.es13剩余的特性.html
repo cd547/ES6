@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1.at
+        let arr = ['aaa', 'bbb', 'ccc', 'ddd']
+        console.log('0', arr[0]);
+        console.log('last:', arr[arr.length - 1]);
+        console.log('0', arr.at(0));
+        console.log('last', arr.at(-1));
+        let str = 'afdsfdfsfsf'
+        console.log(str.at(-1));//f
+
+        //2.开始、结束索引
+        str = '今天是2023-10-10'//如何提出日期，年月日
+        let es9_reg = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/ //命名捕获分组
+        let es9_res = es9_reg.exec(str)
+        console.log(es9_res);
+        /*  0: "2023-10-10"
+            1: "2023"
+            2: "10"
+            3: "10"
+            groups: {year: '2023', month: '10', day: '10'}
+            index: 3
+            input: "今天是2023-10-10"
+            length: 4
+        */
+        let { year, month, day } = es9_res.groups
+        console.log(year, month, day);
+        es13_reg = /(?<year>[0-9]{4})-(?<month>[0-9]{2})-(?<day>[0-9]{2})/d //命名捕获分组
+        let es13_res = es13_reg.exec(str)
+        console.log(es13_res);
+        /*
+                0: "2023-10-10"
+                1: "2023"
+                2: "10"
+                3: "10"
+                groups: {year: '2023', month: '10', day: '10'}
+                index: 3
+                indices: 
+                    Array(4)
+                        0: (2) [3, 13]
+                        1: (2) [3, 7]
+                        2: (2) [8, 10]
+                        3: (2) [11, 13]
+                    groups: 
+                        day: (2) [11, 13]
+                        month: (2) [8, 10]
+                        year: (2) [3, 7]
+                length: 4
+                [[Prototype]]: Array(0)
+                input: "今天是2023-10-10"
+                length: 4
+        */
+
+        //3.findLast()findLastIndex()
+        let arr1 = [11, 12, 13, 14, 15]
+        let arrres = arr1.find(value => {
+            return value > 13
+        })
+        console.log('arrres', arrres);//arrres 14
+        let arrresIndex = arr1.findIndex(value => {
+            return value > 13
+        })
+        console.log('arrresIndex', arrresIndex);//arrresIndex 3
+        let arrres_Last = arr1.findLast(value => {
+            return value > 13
+        })
+        console.log('arrres_Last', arrres_Last);//arrres_Last 15
+
+        let arrresIndex_Last = arr1.findLastIndex(value => {
+            return value > 13
+        })
+        console.log('arrresIndex_Last', arrresIndex_Last);//arrresIndex_Last 4
+
+        //Error对象Cause属性
+        function getdata() {
+            try {
+                console.log(ddf);
+            }
+            catch {
+
+                throw new Error('传入参数不符合规则',{cause:'自定义原因'})
+            }
+        }
+        try{
+            getdata()
+        }
+        catch(e){
+            console.log(e,e.cause);
+            /*
+            Error: 传入参数不符合规则
+    at getdata (4.es13剩余的特性.html:91:23)
+    at 4.es13剩余的特性.html:95:13 '自定义原因'
+            */
+            
+        }
+       
+    </script>
+</body>
+
+</html>

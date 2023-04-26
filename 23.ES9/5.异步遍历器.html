@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //异步任务，1->2->3
+
+        //异步
+        function ajax(data) {
+            return new Promise(resolve => {
+                resolve(data)
+            })
+        }
+        //异步生成器 async 和*配合
+        async function* gen() {
+            console.log('1');
+
+            yield ajax(111)
+            console.log('2');
+            yield ajax(222)
+        }
+        //异步遍历器
+        let g = gen()
+
+        //方案1
+        /*
+        g.next().then(res=>{
+            console.log('res',res);//{value: 111, done: false}
+            return g.next()
+        }).then(res=>{
+            console.log('res',res);//{value: 222, done: false}
+            return g.next()
+        }).then(res=>{
+            console.log('res',res);//{value: undefined, done: true}
+        })
+        */
+
+        //方案2
+        /*
+        async function tst(){
+            let res1=await g.next()
+            console.log(res1);
+            let res2=await g.next()
+            console.log(res2);
+            let res3=await g.next()
+            console.log(res3);
+            
+        }
+        tst()
+        */
+
+        async function test() {
+            let list = [g.next(), g.next(), g.next()]
+            //异步遍历器专用，一次遍历
+            for await (let i of list) {
+                console.log('i', i);
+
+            }
+        }
+        test()
+
+
+        //异步任务，1->2->3
+        function timer(t) {
+            return new Promise(resolve => {
+                console.log('t', t);
+                setTimeout(() => {
+                    resolve('data-' + t)
+                }, t)
+
+            })
+        }
+        async function* gen1() {
+            yield timer(1000)
+            yield timer(2000)
+            yield timer(3000)
+        }
+
+        async function test1() {
+            let g=gen1()
+            let tasks = [g.next(), g.next(), g.next()]
+            //for里面是并发的
+            for await (let item of tasks) {
+                console.log('sart-', Date.now());
+                console.log(item);
+                console.log('end-', Date.now());
+            }
+        }
+        test1()//能按照1(等1s)->2(等2s)->3(等3s)
+    </script>
+</body>
+
+</html>

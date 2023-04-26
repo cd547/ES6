@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    模糊搜索
+    <input id="aa" type="text">
+    <input id="bb" type="text">
+
+    <script>
+
+        let search = document.querySelector('#aa')
+        //普通function的this是指向调用的对象
+        search.oninput = function () {
+            console.log('this', this.value);
+            setTimeout(function () {
+                console.log(`${this}`);//普通函数this指向调用者setTimeout,setTimeout是js内置函数是被window调用
+                console.log(`${this.value}`);
+
+            }, 1000)
+        }
+        /*
+        this a
+        [object Window]
+        undefined
+        */
+        let search1 = document.querySelector('#bb')
+        search1.oninput = function () {
+            console.log('this', this.value);
+            setTimeout(() => {
+                console.log(`${this}`);//箭头函数中的this指向父级外面的this
+                console.log(`${this.value}`);
+
+            }, 1000)
+        }
+        /*
+        this b
+        [object HTMLInputElement]
+        b
+        */
+    
+    </script>
+</body>
+
+</html>

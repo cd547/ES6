@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let myname = 'cd547'
+        //include,判断某个字符是否在指定的字符串内
+        console.log(myname.includes('cd'))//true
+        console.log(myname.includes('cdx'))//false
+        //第二参数
+        console.log(myname.includes('cd', 2))//false,第2索引开始的字符（5）
+        console.log(myname.includes('5', 2))//true,第2索引开始的字符（5）
+        //startsWith,判断某个字符是否在指定的字符串开头
+        console.log(myname.startsWith('cd'))//true
+        console.log(myname.startsWith('xcd'))//false
+        //第二参数
+        console.log(myname.startsWith('cd', 1))//false
+        console.log(myname.startsWith('d5', 1))//true
+        //endsWith,判断某个字符是否在指定的字符串结尾
+        console.log(myname.endsWith('47'))//true
+        console.log(myname.endsWith('xcd'))//false
+        //第二参数
+        console.log(myname.endsWith('cd', 3))//false
+        console.log(myname.endsWith('d5', 3))//true ,第3个索引（4）往前开始，不包括第3个索引（4），是否已d5结尾
+        //repeat,重复N次.n>=0,并返回新字符串
+        console.log(myname.repeat(3))//cd547cd547cd547
+    </script>
+</body>
+
+</html>

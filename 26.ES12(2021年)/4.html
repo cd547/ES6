@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="like">like</button>
+    <script>
+        let obj={
+            name:'aaa'
+        }
+        let weakobj=new WeakRef(obj)//弱引用，不会阻止垃圾回收
+        console.log('obj',obj);//obj {name: 'aaa'}
+        console.log('weakobj',weakobj);
+       // console.log('weakobj.deref()',weakobj.deref());
+        obj=null
+      //  console.log('obj',obj);
+       // console.log('weakobj.deref()',weakobj.deref());
+       /////
+       let wmap = new WeakMap()
+        let like =new WeakRef(document.getElementById("like")) 
+
+        wmap.set(like.deref(), { click: 0 })
+        like.deref().onclick = function () {
+            let times = wmap.get(like.deref())
+            times.click++
+        };
+    
+        setTimeout(() => {
+            document.body.removeChild(like.deref())
+            //console.log('like', like.deref());
+
+        }, 2000)
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //Promise 3种状态：pedding,fulfilled,rejected 
+        //变化途径2种：pedding->fulfilled.pedding->rejected.
+        //1.在then有了第二个函数时（reject）,并通过链式调用catch，如果发生reject,是不会在走catch了
+        var mypromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                //resolve()
+                reject()
+            }, 1000)
+        })
+
+        console.log(mypromise);//padding ->reject 失败
+
+        mypromise.then(() => {
+            console.log(mypromise)
+            console.log('成功');
+        }, () => {
+            console.log(mypromise)
+            console.log('失败');
+        }).catch(() => {
+            console.log(mypromise)
+            console.log('出错');
+        })
+        //2.promise里既有  resolve()又有reject()，只会走一个
+        var mypromise1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve()
+                reject()
+            }, 1000)
+        })  
+        console.log(mypromise1);//padding ->resolve 成功1
+        mypromise1.then(() => {
+            console.log(mypromise)
+            console.log('成功1');
+        }, () => {
+            console.log(mypromise)
+            console.log('失败1');
+        }).catch(() => {
+            console.log(mypromise)
+            console.log('出错1');
+        })
+
+        var mypromise2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject()
+                resolve()
+            }, 1000)
+        })  
+        console.log(mypromise2);//padding ->resolve 失败2
+        mypromise2.then(() => {
+            console.log(mypromise)
+            console.log('成功2');
+        }, () => {
+            console.log(mypromise)
+            console.log('失败2');
+        }).catch(() => {
+            console.log(mypromise)
+            console.log('出错2');
+        })
+        
+    </script>
+</body>
+
+</html>

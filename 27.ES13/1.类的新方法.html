@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Person {
+            //es12新方法,初始化变量
+            state = {
+                a: 'xxx', b: 11
+            }
+
+            constructor(name, age) {
+                this.name = name,
+                    this.age = age
+                // this.state = {
+                //     a: 'xxx', b: 11
+                // }
+            }
+        }
+        let obj = new Person('ss', 12)
+        console.log('obj', obj);
+        ///////////////
+        class Cache {
+
+            obj = {}
+            _privateObj = {}//君子协定私有变量
+            //私有变量
+            #es12_privateObj = {}
+            get(key) {
+                return this.obj[key]
+            }
+            set(key, value) {
+                this.obj[key] = value
+            }
+            getEs12(key) {
+                return this.#es12_privateObj[key]
+            }
+            setEs12(key, value) {
+                this.#es12_privateObj[key] = value
+            }
+            //私有方法
+            #privateMethod() {
+                console.log('private method');
+                return '[ppp]'
+            }
+            //静态变量
+            static count = 0
+            //私有静态变量
+            static #count = 0
+        }
+        let store = new Cache()
+        console.log('store', store);
+        store.set('nn', 'ddd')
+        console.log('get', store.get('nn'));
+        console.log('this', store.obj.nn);
+
+        store.setEs12('EsPrivate_nn', 'ssdfddd')
+        console.log('getEs12', store.getEs12('EsPrivate_nn'));
+        console.log('store', store);
+        //console.log('this',  store.obj.#es12_privateObj);
+        console.log(Cache.count);// 0  console.log(Cache.#count);会出错
+
+        //静态代码块（类似静态的constructor)
+        class MyCache {
+            static obj = new Map()
+            static {
+                this.obj.set('name', 'aaa')
+                this.obj.set('age', '100')
+            }
+            static {
+                this.obj.set('name1', 'aaa1')
+                this.obj.set('age1', '101')
+                console.log('ddd');
+
+            }
+        }
+
+        //in,属性是否在类中
+        class MyCache1 {
+            static obj = new Map()
+            static {
+                this.obj.set('name', 'aaa')
+                this.obj.set('age', '100')
+            }
+            static {
+                this.obj.set('name1', 'aaa1')
+                this.obj.set('age1', '101')
+                console.log('ddd');
+
+            }
+            #obj1 = {}
+            _privateObj = {}//君子协定私有变量
+            //私有变量
+            #es12_privateObj = {}
+            get(key) {
+                return this.#obj1[key]
+            }
+            has_privateObj1(){
+                return '_privateObj1' in this
+            }
+            has_Obj(){
+                return #obj1 in this
+            }
+            has_Objkey(key){
+                return key in this
+            }
+        }
+        let store1=new MyCache1()
+       console.log(' store1.has_Obj()', store1.has_Obj());
+       console.log(' store1.has_privateObj()', store1.has_privateObj1());
+       console.log(' store1.has_Objkey()', store1.has_Objkey('_privateObj'));
+    </script>
+</body>
+
+</html>

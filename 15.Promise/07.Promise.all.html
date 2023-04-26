@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function ajax(url) {
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', url, true);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        //接收完毕
+                        if (xhr.status >= 200 && xhr.status <= 300) {
+                            //ok
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            //error
+                            reject(xhr.responseText)
+                        }
+                    }
+
+                }
+            })
+        }
+        let name = 'aaa'
+        ajax(`http://localhost:3000/p?name=${name}`).then(res => {
+            console.log('name', res);
+            return ajax(`http://localhost:3000/books?name=${res[0].name}`)//这里必须是将来有机会从padding到其他状态，不然下面的then不会执行
+        }).then(res => {
+            console.log('book', res);
+
+        })
+        let nameArray = ['aaa', 'bbb']
+        nameArray.forEach(name => {
+            ajax(`http://localhost:3000/p?name=${name}`).then(res => {
+                console.log('arrname', res);
+                return ajax(`http://localhost:3000/books?name=${res[0].name}`)//这里必须是将来有机会从padding到其他状态，不然下面的then不会执行
+            }).then(res => {
+                console.log('arrbook', res);
+
+            })
+        })
+
+        //promise.all([p1,p2,p3])用于多个Promise实例包装成新的promise实例,新实例的状态由p1,p2,p3决定
+        //，只有全部变为fulfilled，才会是fulfilled。只要有一个reject,就是reject,并把第一个reject的返回值传给改实例
+        Promise.all([
+            ajax(`http://localhost:3000/p?name=${"aaa"}`),
+            ajax(`http://localhost:3000/p?name=${"name"}`)
+        ]).then(res => {
+            console.log('res',res);
+
+        }).catch(err => {
+            console.log('err', err);
+
+        })
+        var nameArray1 = ["aaa","bbb"];
+        function getData(list){
+            //map要return
+            var newlist=list.map(item =>{
+                console.log('item',item)
+                return ajax(`http://localhost:3000/p?name=${item}`)
+            })
+            console.log('return',newlist);
+            
+            return Promise.all(newlist)
+        }
+        getData(nameArray1).then(res=>{
+            console.log('promise.all',res);
+        }).catch(err => {
+            console.log('err', err);
+
+        })
+
+    </script>
+</body>
+
+</html>

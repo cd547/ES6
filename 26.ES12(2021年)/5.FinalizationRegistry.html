@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="like">like</button>
+    <script>
+        //清注册表功能FinalizationRegistry,指定目标对象被垃圾惠州机制清除以后，所要执行的回调函数
+        let obj ={name:11}
+        let registry=new FinalizationRegistry(data=>{
+            console.log('销毁了',data);
+            
+        });
+
+        registry.register(obj,'最后的呐喊')
+        obj=null
+        let registry1=new FinalizationRegistry(data=>{
+            console.log('销毁了11',data);
+            
+        });
+        let wmap = new WeakMap()
+        let like =new WeakRef(document.getElementById("like")) 
+
+        wmap.set(like.deref(), { click: 0 })
+        like.deref().onclick = function () {
+            let times = wmap.get(like.deref())
+            times.click++
+        };
+    
+        setTimeout(() => {
+            registry1.register(like.deref(),wmap.get(like.deref()).click)
+            document.body.removeChild(like.deref())
+            //console.log('like', like.deref());
+
+        }, 2000)
+    </script>
+</body>
+</html>

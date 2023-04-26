@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul id="dd"></ul>
+    <script>
+        //构造函数写法
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype.say = function () {
+            console.log(this.name, this.age);
+
+        }
+        let obj = new Person("aa", 11);
+        console.log('obj', obj);
+        obj.say()
+        //es6写法
+        console.log('es6写法');
+        let s=Symbol('say')
+        class Person1 {
+            constructor(name, age,id) {
+                this.name = name;
+                this.age = age;
+                this.ele=document.querySelector(`#${id}`)
+            }
+            say() {
+                console.log(this.name, this.age);
+            }
+            [s](){
+                console.log('say',this.name, this.age);
+            }
+            get html() {
+                console.log('get innerHTML',this.ele.innerHTML);
+                return this.ele.innerHTML;
+                
+            }
+            set html(data) {
+                this.ele.innerHTML=data.map(item=>{
+                    return `<li>${item}</li>`
+                }).join('');
+                
+            }
+           //es6 静态方法
+            static myname='sss'
+            static staticethods1=function() {
+                console.log('dssssd');     
+            }
+        }
+         //静态方法
+        Person1.staticethods=function() {
+                console.log('dd');     
+        }
+        let obj1 = new Person1("aa", 11,'dd');
+        console.log('obj1', obj1);
+        obj1.say()
+        console.log(obj1.__proto__===Person1.prototype);//true
+        obj1[s]()
+        obj1.location
+        obj1.location='aaa'
+        obj1.location
+    </script>
+</body>
+
+</html>

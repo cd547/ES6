@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //async函数的返回值是非Promise对象的情况，返回一个Promise fulfilled
+        async function tst() {
+            console.log('ok');
+        }
+        tst()
+        console.log('res', tst());//res Promise {<fulfilled>: undefined}
+
+        async function tst1() {
+            console.log('ok');
+            return '111'
+        }
+        console.log('res', tst1());//res Promise {<fulfilled>: '111'}
+
+        async function tst2() {
+            return new Promise((resolve, reject) => {
+                resolve('aaa')
+            })
+        }
+        console.log('res', tst2());//Promise {<pending>} 
+
+        async function tst3() {
+            return new Promise((resolve, reject) => {
+                reject('aaa')
+            })
+        }
+        console.log('res', tst3().then(() => {
+        }).catch(err => {
+            console.log('err', err);
+        }));//Promise {<pending>} 
+
+        //await
+        async function tst4() {
+            let res = await 1111
+            console.log('await res', res); //1111
+        }
+        console.log('tst4', tst4());
+
+        async function tst5() {
+            let res = await new Promise((resolve, reject) => {
+                resolve('resolev')
+            })
+            
+            console.log('await P res', res);
+            return res
+        }
+        console.log('tst5', tst5());
+
+        async function tst6() {
+            let res = await new Promise((resolve, reject) => {
+                reject('resolev')
+            })
+            //在 await 表达式后面的代码只有在该 Promise 变成 resolved 状态时才能被执行。但是，在这个例子中，Promise 被 reject 了，因此不会进入 then 块，而是直接跳到了 catch 块。
+            console.log('tst6',res);
+            console.log('await P6 res', res); //没有
+            return res
+        }
+        let r = tst6()
+
+        r.then(() => {
+        }).catch(err => {
+            console.log('err6', err);
+        })
+        console.log('r', r);
+        // console.log('tst6', r.then(() => {
+        // }).catch(err => {
+        //     console.log('err6', err);
+        // }));
+
+        //先后
+        async function tst7() {
+            let res = await new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve('1111')
+                    console.log('2222');
+                }, 1000);
+                console.log('3333');
+
+            })
+            console.log('await P7 res', res);
+            return res
+        }
+        let r1 =tst7()
+        console.log('r1', r1);
+        r1.then(res => {
+            console.log('res7', res);
+        }).catch(err => {
+            console.log('err7', err);
+
+        })
+
+    </script>
+</body>
+
+</html>

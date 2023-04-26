@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //不能重复声明
+        // var a=1
+        // var a=2
+        // console.log(a);
+
+        // let a=1
+        // let a=2 //Uncaught SyntaxError: Identifier 'a' has already been declared (at 2.html:15:13)
+
+        //不存在变量提升
+        // console.log(myname); //undefined
+        // var myname = '555'   
+
+        // console.log(myname); //Uncaught ReferenceError: Cannot access 'myname' before initialization
+        // let myname = '555'   
+
+        //暂存性死区
+        // let a='aaa'
+        // function aa(){
+        //     console.log(a);//caught ReferenceError: Cannot access 'a' before initialization
+        //     let a='bb' //如果这里没有，上面就能打印aaa
+        // }
+        // aa()
+
+        //不和顶层对象挂钩,node不会和global挂钩
+        // var my = 'aaa'
+        // console.log(window.my)  //aaa
+
+        let my = 'aaa'
+        console.log(window.my)  //undefined
+    </script>
+</body>
+
+</html>

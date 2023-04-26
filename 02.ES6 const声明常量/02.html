@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // const obj = {
+        //     name: 'aaa',
+        //     age: 100,
+        // }
+        // // obj='a'//Uncaught TypeError: Assignment to constant variable.
+        // obj.name = 'bbb' //ok
+
+        // //冻结对象内部变量也不能改.Object.freeze只能冻住一级属性
+        // const obj1 = {
+        //     name: 'aaa',
+        //     age: 100,
+        // }
+        // const o = Object.freeze(obj1)
+        // obj1.name = 'bbb'
+        // console.log(obj1)//{name: 'aaa', age: 100}
+        // //数组
+        // const arr = [1, 2, 3, 4, 5]
+        // console.log(typeof (arr))
+        // arr[0] = 0
+        // console.log(arr)// [0, 2, 3, 4, 5]
+
+        // const arr1 = [1, 2, 3, 4, 5]
+        // const o1 = Object.freeze(arr1)
+        // arr1[0] = 0
+        // console.log(arr1)// [1, 2, 3, 4, 5]
+
+
+        const obj2 = {
+            name: 'aaa',
+            age: 100,
+            p: {
+                a: 1,
+                b: 'bb'
+            }
+        }
+        //深冻结对象和数组
+        function deepFreeze(obj) {
+            let propNames = Object.getOwnPropertyNames(obj)
+            console.log(propNames)
+            //遍历
+            propNames.forEach((item) => {
+                console.log(item)
+                let value = obj[item]
+                if (value instanceof Object && value !== null) {
+                    deepFreeze(value)
+                }
+            })
+            return Object.freeze(obj)
+        }
+
+        console.log(11111)
+        deepFreeze(obj2)
+        obj2.p.a = 2
+        console.log(obj2)
+    </script>
+</body>
+
+</html>

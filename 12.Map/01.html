@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //二维数组
+        let m1 = new Map([
+            ["name", '547'],
+            ["age", 100],
+            [{ a: '11' }, 11]
+        ])
+        console.log(m1);// Map(3) {'name' => '547', 'age' => 100, {…} => 11}
+
+        let m2 = new Map()
+        m2.set('name', 'aaa')
+        m2.set('age', 100)
+        m2.set({ a: '11' }, 1100)
+        console.log(m2);//Map(3) {'name' => 'aaa', 'age' => 100, {…} => 1100}
+
+        for (let i of m2) {
+            console.log(i);
+        }
+        //转数组
+        console.log([...m2]);//[Array(2), Array(2), Array(2)]
+        //      0: (2) ['name', 'aaa']
+        //      1: (2) ['age', 100]
+        //      2: (2) [{…}, 1100]
+
+        // 方法
+        //get 获取,set设置
+        console.log('get:', m2.get('name')); //aaa
+        console.log('get:', m2.get({ a: '11' })); //undefined
+        //解决undefined,先把对象赋值给一个变量
+        let address = { 'b': '11' }
+        m2.set(address, 1100)
+        console.log('get:', m2.get(address));//1100
+        //has判断有没有
+        console.log('get:', m2.has(address));//true
+        //删除delete
+        m2.delete(address)
+        console.log('get:', m2.has(address));//false
+        console.log('size:', m2.size);//3
+        //清空 clear
+        m2.clear();
+        console.log(m2);//Map(0) {size: 0}
+
+        //遍历
+        for (let i of m1.keys()) {
+            console.log('key', i);
+        }
+        //key name
+        //key age
+        //key {a: '11'}
+
+        for (let i of m1.values()) {
+            console.log('value', i);
+        }
+        //value 547
+        //value 100
+        //value 11
+
+        //m1.entries()等价m1
+        //for (let [index, item] of m1) {
+        for (let [index, item] of m1.entries()) {
+            console.log('entrie', index, item);
+        }
+        //entrie name 547
+        //entrie age 100
+        //entrie {a: '11'} 11
+
+        //foreach
+        m1.forEach((index, item) => {
+            console.log('forEach', index, item);
+        })
+        //forEach 547 name
+        //forEach 100 age
+        //forEach 11 {a: '11'}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        function ajax(url) {
+            return new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+                xhr.open('get', url, true);
+                xhr.send();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        //接收完毕
+                        if (xhr.status >= 200 && xhr.status <= 300) {
+                            //ok
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            //error
+                            reject(xhr.responseText)
+                        }
+                    }
+
+                }
+            })
+        }
+        //promise.any([p1,p2,p3])用于多个Promise实例包装成新的promise实例,
+        //新实例的状态:p1,p2,p3中只要有一个是fulfilled,fulfilled.
+        //如全是reject，reject
+        let p1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('p1')
+            }, 1000)
+        })
+        let p11 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject('p1')
+            }, 1000)
+        })
+        let p2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('p2')
+            }, 2000)
+        })
+        let p21 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject('p2')
+            }, 2000)
+        })
+        let p3 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('p3')
+            }, 3000)
+        })
+        let p31 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject('p3')
+            }, 3000)
+        })
+        //这里不能new
+        let prace = Promise.race([p1, p2, p3]).then(res => {
+            console.log('race res', res);
+        }).catch(err => {
+            console.log('race err', err);
+
+        })
+        //race res p1
+
+        let pany = Promise.any([p1, p2, p3]).then(res => {
+            console.log('any ok', res);
+        }).catch(err => {
+            console.log('any err', err);
+        })
+        //any ok p1
+
+        let prace1 = Promise.race([p11, p21, p31]).then(res => {
+            console.log('race res', res);
+        }).catch(err => {
+            console.log('race err', err);
+        })
+        //race err p1
+
+        //any慢，会等
+        let pany1 = Promise.any([p11, p21, p31]).then(res => {
+            console.log('any ok', res);
+        }).catch(err => {
+            console.log('any err', err);
+        })
+        //any err AggregateError: All promises were rejected
+
+        let pany11 = Promise.any([p11, p2, p31]).then(res => {
+            console.log('any ok', res);
+        }).catch(err => {
+            console.log('any err', err);
+        })
+        //any ok p2
+
+       
+        //all :没有顺序关系，所有都完事后在干，可能then，可能catch
+         //allSettled：所有都完事后在干，都在then里
+        //race:谁先完事就结束，可能then，可能catch
+        //any:谁先完事（成功）就结束，不然等到大家都失败
+         //这些都不需要实列化
+    </script>
+</body>
+
+</html>

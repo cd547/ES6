@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //2,8进制
+        let num1 = 100//100
+        let num2 = 0x100//
+        let num3 = 0b100
+        let num4 = 0o100
+        console.log(num1, num2, num3, num4);
+        //number
+        //isFinite是否有限(全局方法)
+        console.log(isFinite(100))//true
+        console.log(isFinite(100 / 0))//false
+        console.log(isFinite(Infinity))//false
+        console.log(isFinite("100"))//true
+        console.log(isFinite("100/0"))//false，转换失败
+        //Number,并不会转换成数值
+        console.log(Number.isFinite(100))//true
+        console.log(Number.isFinite(100 / 0))//false
+        console.log(Number.isFinite(Infinity))//false
+        console.log(Number.isFinite("100"))//false,并不会转换成数值
+        console.log(Number.isFinite("100/0"))//false,并不会转换成数值
+
+        //isNaN 非数值（Not a Number）,即是一个不是数字的数值
+        console.log('isNaN')
+        console.log(isNaN(100))//false
+        console.log(isNaN(100 / 0))//false，Infinity是数字类型
+        console.log(isNaN(Infinity))//false
+        console.log(isNaN(NaN))//true
+        console.log(isNaN("100"))//false
+        console.log(isNaN("100/0"))//true,转换失败,不会计算除法
+        console.log(isNaN("100/1"))//true,转换失败,不会计算除法
+        console.log(isNaN("aaa"))//true
+        //Number,并不会转换成数值
+        console.log(Number.isNaN(100))//false
+        console.log(Number.isNaN(100 / 0))//false
+        console.log(Number.isNaN(NaN))//true
+        console.log(Number.isNaN("100"))//false,并不会转换成数值
+        console.log(Number.isNaN("100/0"))//false,并不会转换成数值
+
+        //是否是整数
+        console.log(Number.isInteger(100))//true
+        console.log(Number.isInteger(100.0))//true
+        console.log(Number.isInteger(100.1))//false
+        console.log(Number.isInteger(100 / 0))//false
+        console.log(Number.isInteger('sss'))//false
+        console.log(Number.isInteger('1'))//false
+
+        //极小常量Number.EPSILON 相当于 2 的 -52 次方
+        console.log(1.1 + 1.2)//2.3
+        console.log(0.1 + 0.2)//0.30000000000000004
+        function isEq(a, b) {
+            return Math.abs(a - b) < Number.EPSILON
+        }
+        console.log(isEq(0.1 + 0.2, 0.3))//true
+
+        //去除小数部分Math.trunc
+        console.log(Math.trunc(1.2))//1
+        console.log(Math.trunc(-1.2))//-1
+
+        //Math.sign判断数字是正负或者0，非数值会先将其转换成数值,共5种结果：1，-1，-0，0，NaN
+        console.log(Math.sign(1.2))//1
+        console.log(Math.sign(100))//1
+        console.log(Math.sign(0))//0
+        console.log(Math.sign(-0))//-0
+        console.log(Math.sign(-0 / 100))//-0
+        console.log(Math.sign(-100))//-1
+        console.log(Math.sign(-1.2))//-1
+        console.log(Math.sign("-100"))//-1
+        console.log(Math.sign("-100/1"))//NaN
+    </script>
+</body>
+
+</html>

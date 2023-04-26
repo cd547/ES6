@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //set
+        let s1 = new Set([1, 2, 2, 3, 3, 3, 4, 44])
+        console.log(s1);//Set(5) {1, 2, 3, 4, 44}
+        //转数组
+        console.log([...s1]);//(5) [1, 2, 3, 4, 44]
+        console.log(Array.from(s1));//等价(5) [1, 2, 3, 4, 44]
+        //添加
+        s1.add(33)
+        console.log(s1);//Set(6) {1, 2, 3, 4, 44, …}
+        //可以使用for of遍历
+        for (i of s1) {
+            console.log('i', i);
+
+        }
+        //属性size,长度
+        console.log('size', s1.size);//size 6
+        //链式调用
+        s1.add(12).add(13)
+        console.log(s1);//Set(8) {1, 2, 3, 4, 44, …}
+        //has方法
+        console.log(s1.has(8));//fasle
+        console.log(s1.has(13));//true
+        //delete
+        s1.delete(44)
+        console.log(s1);//Set(7) {1, 2, 3, 4, 33, …}
+        //clear
+        s1.clear()
+        console.log(s1);//Set(0) {size: 0}
+
+        //原形方法
+        //1.keys,键名就是键值
+        let s2 = new Set([1, 2, 2, 3, 3, 3, 4, 44])
+        for (let i of s2.keys()) {
+            console.log('keys', i);
+        }
+        //keys 1
+        //keys 2
+        //keys 3
+        //keys 4
+        //keys 44
+        for (let i of s2.values()) {
+            console.log('values', i);
+        }
+        //values 1
+        //values 2
+        //values 3
+        //values 4
+        //values 44
+        for (let i of s2.entries()) {
+            console.log('entries', i);
+        }
+        //entries (2) [1, 1]
+        //entries (2) [2, 2]
+        //entries (2) [3, 3]
+        //entries (2) [4, 4]
+        //entries (2) [44, 44]
+        let arr = [1, 2, 3, 4]
+        for (let i of arr.entries()) {
+            console.log('entries', i);
+        }
+        //entries (2) [0, 1]
+        //entries (2) [1, 2]
+        //entries (2) [2, 3]
+        //entries (2) [3, 4]
+        //forEach
+        s2.forEach((item, index) => {
+            console.log(item, index);
+        })
+        //1 1
+        //2 2
+        //3 3
+        //4 4
+        //44 44
+        //复杂数据类型去重
+        let arr1 = [
+            '1', 1, 1, 2, 3, 4, 44, [1, 2], [2, 1], [2, 1, 1], [1, 2], "ss", 'yy', 'yy', "yy",
+            { n: 1, m: 's' }, { n: 1, m: 's' }, { n: 2, m: 's' },undefined,undefined,NaN,NaN
+        ]
+        function my(arr) {
+            let res = new Set()
+            return arr.filter((item) => {
+                let id = JSON.stringify(item)
+                if (res.has(id)){
+                    return false
+                }else{
+                    res.add(id)
+                    return true
+                }
+            })
+        }
+        console.log(my(arr1),arr1);
+
+    </script>
+</body>
+
+</html>
